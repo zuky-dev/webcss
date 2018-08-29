@@ -1,0 +1,66 @@
+$breakpoints: (
+    none: '',
+    sx: (
+        media: max-width,
+        size: 576px),
+    sm: (
+        media: min-width,
+        size: 576px),
+    md: (
+        media: min-width,
+        size: 768px),
+    lg: (
+        media: min-width,
+        size: 992px),
+    xl: (
+        media: min-width,
+        size: 1200px),
+);
+
+@mixin responsive($name){
+    @each $bp, $res in $breakpoints{
+        $fullname: '';
+        @if $bp == 'none'{
+            $fullname: $name;
+
+            .#{$fullname} {
+                @content;
+            }
+        }
+        @else{
+            $fullname: $name + '-' + $bp;
+            $media: map-get($res, media);
+            $size: map-get($res, size);
+
+            .#{$fullname} {
+                @media screen and ($media : $size) {
+                    @content;
+                }
+            }
+        }
+    }
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+
+    @for $i from 1 to 13{
+        $name: 'gc-' + $i;
+        @include responsive(#{$name}){
+            grid-column: span $i;
+        };
+    }
+
+
+    &.row{
+        grid-template-rows: repeat(12, 1fr);
+
+        @for $i from 1 to 13{
+            $name: 'gr-' + $i;
+            @include responsive(#{$name}){
+                grid-row: span $i;
+            };
+        }
+    }
+}
