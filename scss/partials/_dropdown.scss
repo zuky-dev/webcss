@@ -1,0 +1,13 @@
+.dropdown{
+    background: blue;
+
+    .drop-cont{
+        display: none;
+        position: absolute;
+        background: green;
+    }
+
+    &:hover .drop-cont{
+        display: block;
+    }
+}
